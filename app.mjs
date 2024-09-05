@@ -36,10 +36,13 @@ app.post("/", async (req, res) => {
 });
 
 app.get('/:id', async (req, res) => {
-    return res.render(
-        "doc",
-        { doc: await documents.getOne(req.params.id) }
-    );
+    const document = await documents.getOne(req.params.id);
+
+    if (document) {
+        return res.render("doc", { doc: document });
+    } else {
+        return res.status(404).send('Document not found');
+    }
 });
 
 app.get('/', async (req, res) => {
