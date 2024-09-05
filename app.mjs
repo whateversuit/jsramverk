@@ -55,3 +55,14 @@ app.post("/create", async (req, res) => {
 
     return res.redirect(`/${result.lastID}`);
 });
+
+app.put('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const updatedContent = req.body;
+
+    //uppdatera docs i databas
+    await documents.updateOne(id, updatedContent);
+
+    return res.redirect(`/${id}`);
+});
