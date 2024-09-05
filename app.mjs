@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
+import methodOverride from 'method-override';
 
 import documents from "./docs.mjs";
 
@@ -17,6 +18,7 @@ app.disable('x-powered-by');
 app.set("view engine", "ejs");
 
 app.use(express.static(path.join(process.cwd(), "public")));
+app.use(methodOverride('_method'));
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
