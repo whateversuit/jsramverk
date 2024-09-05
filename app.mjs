@@ -49,3 +49,9 @@ app.get('/', async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });
+
+app.post("/create", async (req, res) => {
+    const result = await documents.addOne(req.body);
+
+    return res.redirect(`/${result.lastID}`);
+});
