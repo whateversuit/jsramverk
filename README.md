@@ -52,7 +52,7 @@ Servern kommer då starta på localhost:1337, besök webbläsaren för att se v�
 * Ett forumlär i index.ejs lades till för att kunna skapa ett nytt dokument.
 * Formuläret i doc.ejs ändrades till en PUT-route.
 * En ny POST-route för att skapa nya dokument lades till.
-* En ny PUT-route för att uppdatera ett dokuemnt lades till.
+* En ny PUT-route för att uppdatera ett dokument lades till.
 * Vi uppdaterade tabellen "documents" i migrate.sql så att varje dokument fick eget id.
 * Vi skapade funktionen "updateOne" i docs.mjs för att uppdatera ett befintligt dokument (id, body).
 * Vi adderade css-style för index-vyn, doc-vyn, footer, navbar och header.
