@@ -35,18 +35,25 @@ app.post("/", async (req, res) => {
     return res.redirect(`/${result.lastID}`);
 });
 
+//visa enbart lista med dokument. Denna route funkar inte just nu.
+app.get('/list', async (req, res) => {
+    return res.render("list", { docs: await documents.getAll() });
+    
+});
+// ----------------------------------------------------------------------//
+app.get('/', async (req, res) => {
+    return res.render("index", { docs: await documents.getAll() });
+    
+});
+
 app.get('/:id', async (req, res) => {
     const document = await documents.getOne(req.params.id);
 
     if (document) {
         return res.render("doc", { doc: document });
     } else {
-        return res.status(404).send('Document not found');
+        return res.status(404).send('document not found');
     }
-});
-
-app.get('/', async (req, res) => {
-    return res.render("index", { docs: await documents.getAll() });
 });
 
 app.listen(port, () => {
