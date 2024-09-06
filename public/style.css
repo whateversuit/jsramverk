@@ -63,9 +63,11 @@ textarea {
 
 footer {
     background-color: #333;
-    color: #fff;
+    color: #ffffff;
     padding: 1.4rem 8rem;
+    display: flex;
     flex-shrink: 0;
+    justify-content: center;
 }
 .navbar {
     background-color: #0074D9;
