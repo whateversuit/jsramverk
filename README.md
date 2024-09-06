@@ -8,7 +8,7 @@ För att köra applikationen i dess nuvarande form:
 * Installera node.js
 * installera sqlite3
 * kör bash-kommandot cat db/migrate.sql | sqlite3 db/docs.sqlite för att skapa tabellen i databasen
-
+* starta applikationen med kommandot node run.mjs
 
 
 Till ramverk för uppgiften har vi valt att använda React.
