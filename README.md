@@ -4,6 +4,8 @@ Starter project for DV1677 JSRamverk
 
 > Detta projekt bygger på kursen jsramverk (JavaScript-baserad webbramverk) och görs av Emil Lindström samt Saga Eriksson. Genom kursens gång ska vi bygga vidare på en "real-time collaborative text-editor"-applikation. Vi kommer titta på hur detta samarbetet blir optimalt samt vilka verktyg och tekniker som finns för att vidareutveckla kod tillsammans.
 
+Detta repo ska hädanefter innehålla backend-koden för vårat projekt. Frontend-koden kommer att hanteras i ett separat repo.
+
 För att köra applikationen i dess nuvarande form:
 
 ### 1. Klona repot
