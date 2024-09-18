@@ -9,7 +9,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
-import documents from "./docs.mjs";
+import posts from './routes/posts.mjs';
+
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.disable('x-powered-by');
 
 app.set("view engine", "ejs");
 
-app.use(express.static(path.join(process.cwd(), "public")));
+//app.use(express.static(path.join(process.cwd(), "public")));
 app.use(methodOverride('_method'));
 
 // don't show the log when it is test
@@ -29,43 +30,45 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/", async (req, res) => {
-    const result = await documents.addOne(req.body);
+app.use("/", posts);
 
-    return res.redirect(`/${result.lastID}`);
-});
+// app.post("/", async (req, res) => {
+//     const result = await documents.addOne(req.body);
 
-app.get('/:id', async (req, res) => {
-    const document = await documents.getOne(req.params.id);
+//     return res.redirect(`/${result.lastID}`);
+// });
 
-    if (document) {
-        return res.render("doc", { doc: document });
-    } else {
-        return res.status(404).send('Document not found');
-    }
-});
+// app.get('/:id', async (req, res) => {
+//     const document = await documents.getOne(req.params.id);
 
-app.get('/', async (req, res) => {
-    return res.render("index", { docs: await documents.getAll() });
-});
+//     if (document) {
+//         return res.render("doc", { doc: document });
+//     } else {
+//         return res.status(404).send('Document not found');
+//     }
+// });
+
+// app.get('/', async (req, res) => {
+//     return res.render("index", { docs: await documents.getAll() });
+// });
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
 
-app.post("/create", async (req, res) => {
-    const result = await documents.addOne(req.body);
+// app.post("/create", async (req, res) => {
+//     const result = await documents.addOne(req.body);
 
-    return res.redirect(`/${result.lastID}`);
-});
+//     return res.redirect(`/${result.lastID}`);
+// });
 
-app.put('/:id', async (req, res) => {
-    const { id } = req.params;
+// app.put('/:id', async (req, res) => {
+//     const { id } = req.params;
 
-    const updatedContent = req.body;
+//     const updatedContent = req.body;
 
-    //uppdatera docs i databas
-    await documents.updateOne(id, updatedContent);
+//     //uppdatera docs i databas
+//     await documents.updateOne(id, updatedContent);
 
-    return res.redirect(`/${id}`);
-});
+//     return res.redirect(`/${id}`);
+// });
