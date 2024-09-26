@@ -85,3 +85,21 @@ ta bort den gamla branchen när den blivit mergad:
 git branch -d <branch-name>
 git push origin --delete <branch-name>
 ```
+# Refaktorering
+
+### Våra steg refaktorerings-uppgiften
+
+Installera nodemon för att kunna starta om servern vid varje ändring.
+```bash
+npm install -g nodemon
+* ändrat i pagacke.json
+  "scripts": {
+    "start": "node app.mjs",
+    "dev": "nodemon app.mjs"
+ ```
+Kör npm nodemon app.mjs istället för node app.mjs.
+
+* Skapade mappen routes/ för nya expressroutes som returnerar JSON-data istället för vyer. Gamla vyer finns fortfarande kvar medans vi utvecklar.
+
+http://localhost:1337/ Visar nu alla dokument i databasen i JSON-format.
+http://localhost:1337/:id Visar nu ett specifikt dokument i databasen i JSON-format. Ersätt id med nummer.
