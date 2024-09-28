@@ -1,42 +1,43 @@
-import express, { Router } from 'express';
+import express from 'express';
+import docs from "../docs.mjs";
+
 const router = express.Router();
 
-import documents from "../docs.mjs";
-
-// router.post("/", async (req, res) => {
-//     const result = await documents.addOne(req.body);
-
-//     return res.redirect(`/${result.lastID}`);
-// });
-router.post("/", async (req, res) => {
-    const result = await documents.addOne(req.body);
-    return res.json({ id: result.lastID, message: "Document created" });
-});
-
-// router.get('/:id', async (req, res) => {
-//     const document = await documents.getOne(req.params.id);
-
-//     if (document) {
-//         return res.render("doc", { doc: document });
-//     } else {
-//         return res.status(404).send('Document not found');
-//     }
-// });
-router.get('/:id', async (req, res) => {
-    const document = await documents.getOne(req.params.id);
-
-    if (document) {
-        return res.json(document);
-    } else {
-        return res.status(404).json({ error: 'Dokumentet finns inte i databasen.' });
+// Hämta alla dokument
+router.get('/', async (req, res) => {
+    try {
+        const allDocuments = await docs.getAll();
+        return res.json(allDocuments);
+    } catch (error) {
+        return res.status(500).json({ error: "Failed to retrieve documents", details: error });
     }
 });
 
-router.get('/', async (req, res) => {
-    return res.json(await documents.getAll())
+// Hämta ett enskilt dokument
+router.get('/:id', async (req, res) => {
+    try {
+        console.log('Received ID:', req.params.id); // Logga mottaget ID
+        const document = await docs.getOne(req.params.id);
+        console.log('Retrieved document:', document); // Logga det hämtade dokumentet
+        if (document) {
+            return res.json(document);
+        } else {
+            return res.status(404).json({ error: 'Document not found' });
+        }
+    } catch (error) {
+        console.error('Error retrieving document:', error); // Logga eventuella fel
+        return res.status(500).json({ error: "Failed to retrieve document", details: error });
+    }
+});
 
-    
-//return res.render("index", { docs: await documents.getAll() });
+// Skapa ett nytt dokument
+router.post("/", async (req, res) => {
+    try {
+        const result = await documents.addOne(req.body);
+        return res.json({ id: result.insertedId, message: "Document created" });
+    } catch (error) {
+        return res.status(500).json({ error: "Failed to create document", details: error });
+    }
 });
 
 router.post("/create", async (req, res) => {
@@ -45,15 +46,37 @@ router.post("/create", async (req, res) => {
      return res.redirect(`/${result.lastID}`);
 });
 
+// Uppdatera ett dokument
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-
     const updatedContent = req.body;
 
-     //uppdatera docs i databas
-    await documents.updateOne(id, updatedContent);
+    try {
+        const result = await docs.updateOne(id, updatedContent);
+        if (result.modifiedCount > 0) {
+            return res.json({ id, message: "Document updated" });
+        } else {
+            return res.status(404).json({ error: "Document not found or no changes made" });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: "Failed to update document", details: error });
+    }
+});
 
-    return res.redirect(`/${id}`);
+// Ta bort ett dokument
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await docs.deleteOne(id);
+        if (result.deletedCount > 0) {
+            return res.json({ id, message: "Document deleted" });
+        } else {
+            return res.status(404).json({ error: "Document not found" });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: "Failed to delete document", details: error });
+    }
 });
 
 export default router;
