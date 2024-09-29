@@ -1,18 +1,24 @@
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+import { MongoClient } from 'mongodb';
 
 async function openDb() {
-    let dbFilename = `./db/docs.sqlite`;
+    const uri = 'mongodb://localhost:27017';
+    const client = new MongoClient(uri);
 
-    if (process.env.NODE_ENV === 'test') {
-        dbFilename = "./db/test.sqlite";
+    try {
+        // Anslut till MongoDB
+        await client.connect();
+
+        console.log("Connected to MongoDB");
+
+        const dbName = 'docsforjsramverk';
+        const database = client.db(dbName);
+        const collection = database.collection('documents');
+
+        return collection;
+    } catch (err) {
+        console.error('Failed to connect to MongoDB', err);
+        throw err;
     }
-
-    return await open({
-        filename: dbFilename,
-        driver: sqlite3.Database
-    });
-}
-
+};
 
 export default openDb;
