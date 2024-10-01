@@ -1,4 +1,7 @@
+
 import 'dotenv/config'
+import dotenv from 'dotenv';
+dotenv.config();
 
 const port = process.env.PORT || 1337;
 
@@ -8,9 +11,10 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
-
+//import openDb from './db/database.mjs';
 
 import posts from './routes/posts.mjs';
+import docs from "./docs.mjs";
 
 
 const app = express();
@@ -55,6 +59,7 @@ app.use("/", posts);
 // app.get('/', async (req, res) => {
 //     return res.render("index", { docs: await documents.getAll() });
 // });
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

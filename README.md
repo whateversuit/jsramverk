@@ -161,3 +161,13 @@ Konfigurera MongoDb att använda denna katalog som databasväg. Starta MongoDB m
 mongod --dbpath ~/jsramverk/db/mongodb-data
 ```
 Detta kommando säkerställer att MongoDB använder den angivna katalogen för datalagring.
+
+Adderade paket dotenv med kommandot
+```bash
+npm install --save dotenv
+```
+Lagt till .env fil med username och password.
+
+Vi har installerat Azure i vscode enligt instruktionerna och skapat en webapp på Microsoft Azure för deployment.
+
+URL för backend-applikationen är https://jsramverk-emlx23-d5hyekcpbdcxdjch.swedencentral-01.azurewebsites.net/
