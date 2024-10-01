@@ -14,10 +14,10 @@ router.get('/', async (req, res) => {
 });
 
 // Hämta ett enskilt dokument
-router.get('/:id', async (req, res) => {
+router.get('/:_id', async (req, res) => {
     try {
-        console.log('Received ID:', req.params.id); // Logga mottaget ID
-        const document = await docs.getOne(req.params.id);
+        console.log('Received ID:', req.params._id); // Logga mottaget ID
+        const document = await docs.getOne(req.params._id);
         console.log('Retrieved document:', document); // Logga det hämtade dokumentet
         if (document) {
             return res.json(document);
@@ -33,7 +33,7 @@ router.get('/:id', async (req, res) => {
 // Skapa ett nytt dokument
 router.post("/", async (req, res) => {
     try {
-        const result = await documents.addOne(req.body);
+        const result = await docs.addOne(req.body);
         return res.json({ id: result.insertedId, message: "Document created" });
     } catch (error) {
         return res.status(500).json({ error: "Failed to create document", details: error });
@@ -64,18 +64,18 @@ router.put('/:id', async (req, res) => {
 });
 
 // Ta bort ett dokument
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
+router.delete('/:_id', async (req, res) => {
+    const { _id } = req.params;
 
     try {
-        const result = await docs.deleteOne(id);
+        const result = await docs.deleteOne(_id);
         if (result.deletedCount > 0) {
-            return res.json({ id, message: "Document deleted" });
+            return res.json({ _id, message: "Document deleted" });
         } else {
             return res.status(404).json({ error: "Document not found" });
         }
     } catch (error) {
-        return res.status(500).json({ error: "Failed to delete document", details: error });
+        return res.status(500).json({ error: "Failed to delete document!", details: error });
     }
 });
 

@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
+
 import posts from './routes/posts.mjs';
 
 
@@ -30,6 +31,8 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/", posts);
 

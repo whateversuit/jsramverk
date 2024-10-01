@@ -34,6 +34,7 @@ const docs = {
 
     addOne: async function addOne(body) {
         const collection = await openDb(); // Få collection direkt
+        console.log("Received document data in backend (addOne):", body);
         try {
             const result = await collection.insertOne({
                 title: body.title,
@@ -47,6 +48,7 @@ const docs = {
     },
 
     updateOne: async function updateOne(id, body) {
+        console.log("Received ID for updateOne (backend):", id); // Check ID value before validation
         const collection = await openDb(); // Få collection direkt
         // Kontrollera om id är ett giltigt ObjectId
         if (!ObjectId.isValid(id)) {
