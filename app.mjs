@@ -20,6 +20,7 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(process.cwd(), "public")));
 app.use(methodOverride('_method'));
+app.use(cors());
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
