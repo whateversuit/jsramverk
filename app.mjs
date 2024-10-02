@@ -10,6 +10,7 @@ import cors from 'cors';
 import methodOverride from 'method-override';
 
 import posts from './routes/posts.mjs';
+import { Server } from 'http';
 
 
 const app = express();
@@ -55,6 +56,8 @@ app.use("/", posts);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+export default app;
 
 // app.post("/create", async (req, res) => {
 //     const result = await documents.addOne(req.body);
