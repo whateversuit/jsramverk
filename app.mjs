@@ -1,4 +1,7 @@
+
 import 'dotenv/config'
+import dotenv from 'dotenv';
+dotenv.config();
 
 const port = process.env.PORT || 1337;
 
@@ -8,9 +11,14 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
+//import openDb from './db/database.mjs';
 
 import posts from './routes/posts.mjs';
+
 import { Server } from 'http';
+
+import docs from "./docs.mjs";
+ main
 
 
 const app = express();
@@ -21,6 +29,7 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(process.cwd(), "public")));
 app.use(methodOverride('_method'));
+app.use(cors());
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
@@ -30,6 +39,8 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/", posts);
 
@@ -52,6 +63,7 @@ app.use("/", posts);
 // app.get('/', async (req, res) => {
 //     return res.render("index", { docs: await documents.getAll() });
 // });
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

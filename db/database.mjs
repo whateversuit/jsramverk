@@ -1,28 +1,48 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ServerApiVersion } from 'mongodb';
+import dotenv from 'dotenv';
+dotenv.config();
 
+ implementingtests
 let client;
 
 async function openDb() {
     const uri = 'mongodb://localhost:27017';
     const client = new MongoClient(uri);
+=======
+const database = {
+    getDb: async function () {
+        let dsn = `mongodb+srv://EmilSagajsramverk:${process.env.ATLAS_PASSWORD}@cluster0.3glcy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+ main
 
-    try {
-        // Anslut till MongoDB
-        await client.connect();
+        if (process.env.NODE_ENV === 'test') {
+            dsn = "mongodb://localhost:27017/test";
+        }
 
-        console.log("Connected to MongoDB");
+        const client = new MongoClient(dsn, {
+            serverApi: {
+                version: ServerApiVersion.v1,
+                strict: true,
+                deprecationErrors: true,
+            }
+        });
 
-        const dbName = 'docsforjsramverk';
-        const database = client.db(dbName);
-        const collection = database.collection('documents');
+        try {
+            await client.connect();
+            console.log("Connected to MongoDB!");
 
-        return collection;
-    } catch (err) {
-        console.error('Failed to connect to MongoDB', err);
-        throw err;
+            const dbName = process.env.NODE_ENV === 'test' ? 'test' : 'docsforjsramverk';
+            const db = client.db(dbName);
+            const collection = db.collection("documents");
+
+            return collection;
+        } catch (err) {
+            console.error("Failed to connect to MongoDB", err);
+            throw err;
+        }
     }
 };
 
+ implementingtests
 async function closeDb() {
     if (client) {
         await client.close();
@@ -31,3 +51,6 @@ async function closeDb() {
 };
 
 export { openDb, closeDb }
+
+export default database;
+ main

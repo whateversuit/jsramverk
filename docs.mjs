@@ -1,39 +1,42 @@
+
 import { openDb } from './db/database.mjs';
+
+import database from './db/database.mjs';
+ main
 import { ObjectId } from 'mongodb';
 
 const docs = {
-    getAll: async function getAll() {
-        const collection = await openDb(); // Få collection direkt
+    getAll: async function () {
+        const collection = await database.getDb(); // Use the collection returned by getDb
         try {
-            console.log(collection.find());
-            return await collection.find().toArray(); // Hämta alla docs
+            return await collection.find().toArray(); // Get all documents
         } catch (e) {
             console.error(e);
             return [];
         }
     },
 
-    getOne: async function getOne(id) {
-        const collection = await openDb(); // Få collection direkt
-        console.log(`Försöker skapa ObjectId från: ${id}`);
+    getOne: async function (id) {
+        const collection = await database.getDb();
+        console.log(`Trying to create ObjectId from: ${id}`);
 
-        // Kontrollera om id är ett giltigt ObjectId
         if (!ObjectId.isValid(id)) {
-            console.error(`Ogiltigt ObjectId: ${id}`);
-            return null; // Returnera null eller ett annat värde för ogiltiga ID:n
+            console.error(`Invalid ObjectId: ${id}`);
+            return null;
         }
 
         const objectId = new ObjectId(id);
         try {
-            return await collection.findOne({ _id: objectId }); // Hämta ett doc
+            return await collection.findOne({ _id: objectId }); // Get one document
         } catch (e) {
             console.error(e);
             return {};
         }
     },
 
-    addOne: async function addOne(body) {
-        const collection = await openDb(); // Få collection direkt
+    addOne: async function (body) {
+        const collection = await database.getDb();
+        console.log("Received document data in backend (addOne):", body);
         try {
             const result = await collection.insertOne({
                 title: body.title,
@@ -46,41 +49,42 @@ const docs = {
         }
     },
 
-    updateOne: async function updateOne(id, body) {
-        const collection = await openDb(); // Få collection direkt
-        // Kontrollera om id är ett giltigt ObjectId
+    updateOne: async function (id, body) {
+        const collection = await database.getDb();
+
         if (!ObjectId.isValid(id)) {
-            console.error(`Ogiltigt ObjectId: ${id}`);
-            return null; // Returnera null eller ett annat värde för ogiltiga ID:n
+            console.error(`Invalid ObjectId: ${id}`);
+            return null;
         }
 
         try {
             const result = await collection.updateOne(
-                { _id: new ObjectId(id) }, // Hitta doc med id
-                { $set: { title: body.title, content: body.content }} // Uppdatera doc
+                { _id: new ObjectId(id) },
+                { $set: { title: body.title, content: body.content }}
             );
-            return result; // Återvänd result för att veta om något ändrades
+            return result;
         } catch (e) {
             console.error('Failed to update document:', e);
-            throw new Error('Database update error'); // Kasta ett fel som kan fångas i rutten
+            throw new Error('Database update error');
         }
     },
 
-    deleteOne: async function deleteOne(id) {
-        const collection = await openDb(); // Få collection direkt
-        // Kontrollera om id är ett giltigt ObjectId
+    deleteOne: async function (id) {
+        const collection = await database.getDb();
+
         if (!ObjectId.isValid(id)) {
-            console.error(`Ogiltigt ObjectId: ${id}`);
-            return null; // Returnera null eller ett annat värde för ogiltiga ID:n
+            console.error(`Invalid ObjectId: ${id}`);
+            return null;
         }
-    
+
         try {
             const result = await collection.deleteOne({ _id: new ObjectId(id) });
-            return result; // Återvänd result för att veta om dokumentet togs bort
+            return result;
         } catch (e) {
             console.error('Failed to delete document:', e);
-            throw new Error('Database delete error'); // Kasta ett fel som kan fångas i rutten
+            throw new Error('Database delete error');
         }
+
     },
 
         // Lägg till en deleteMany-funktion för att ta bort alla dokument
@@ -95,6 +99,9 @@ const docs = {
             }
         }
     
+
+    }
+main
 };
 
 export default docs;
