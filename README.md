@@ -161,3 +161,36 @@ Konfigurera MongoDb att använda denna katalog som databasväg. Starta MongoDB m
 mongod --dbpath ~/jsramverk/db/mongodb-data
 ```
 Detta kommando säkerställer att MongoDB använder den angivna katalogen för datalagring.
+
+
+# Implementation av tester för att säkerställa funktionalitet
+
+* Installera nödvändiga paket genom att köra följande kommando i jsramverk mappen(Mocha: testramverk, Chai: assertionsbibliotek, Chai-HTTP: testa HTTP-anrop, Istanbul (nyc): kodtäckning):
+```bash
+npm install mocha chai chai-http nyc --save-dev
+```
+
+* Skapa en mapp "test", med test-filer.
+
+* Testa API-endpoint
+
+* Konfigurera npm-skript för tester, öppna "package.json" och lägg till följande: 
+```bash
+"scripts": {
+    "test": "nyc mocha"
+}
+```
+
+* Implementera mongodb-memory-server:
+```bash
+npm install --save-dev mongodb-memory-server
+```
+Konfigurera mongodb-memory-server i testerna.
+
+* Kör testerna genom kommandot:
+```bash
+npm test
+
+Kommando för en mer detaljerad rapport om kodtäckning:
+nyc report
+```
