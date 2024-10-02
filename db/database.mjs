@@ -2,9 +2,17 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 import dotenv from 'dotenv';
 dotenv.config();
 
+ implementingtests
+let client;
+
+async function openDb() {
+    const uri = 'mongodb://localhost:27017';
+    const client = new MongoClient(uri);
+=======
 const database = {
     getDb: async function () {
         let dsn = `mongodb+srv://EmilSagajsramverk:${process.env.ATLAS_PASSWORD}@cluster0.3glcy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+ main
 
         if (process.env.NODE_ENV === 'test') {
             dsn = "mongodb://localhost:27017/test";
@@ -34,4 +42,15 @@ const database = {
     }
 };
 
+ implementingtests
+async function closeDb() {
+    if (client) {
+        await client.close();
+        client = null;
+    }
+};
+
+export { openDb, closeDb }
+
 export default database;
+ main
