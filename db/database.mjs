@@ -1,5 +1,7 @@
 import { MongoClient } from 'mongodb';
 
+let client;
+
 async function openDb() {
     const uri = 'mongodb://localhost:27017';
     const client = new MongoClient(uri);
@@ -21,4 +23,11 @@ async function openDb() {
     }
 };
 
-export default openDb;
+async function closeDb() {
+    if (client) {
+        await client.close();
+        client = null;
+    }
+};
+
+export { openDb, closeDb }
