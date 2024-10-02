@@ -1,4 +1,4 @@
-import openDb from './db/database.mjs';
+import { openDb } from './db/database.mjs';
 import { ObjectId } from 'mongodb';
 
 const docs = {
@@ -82,6 +82,18 @@ const docs = {
             throw new Error('Database delete error'); // Kasta ett fel som kan fångas i rutten
         }
     },
+
+        // Lägg till en deleteMany-funktion för att ta bort alla dokument
+        deleteMany: async function deleteMany() {
+            const collection = await openDb(); // Få collection direkt
+            try {
+                const result = await collection.deleteMany({});
+                return result; // Returnera resultatet från deleteMany
+            } catch (e) {
+                console.error('Failed to delete many documents:', e);
+                throw new Error('Database deleteMany error');
+            }
+        }
     
 };
 
