@@ -1,9 +1,6 @@
-
-import 'dotenv/config'
+import 'dotenv/config';
 import dotenv from 'dotenv';
 dotenv.config();
-
-const port = process.env.PORT || 1337;
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -11,79 +8,73 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
-//import openDb from './db/database.mjs';
+import { Server } from 'http'; // If needed in the future, e.g., for WebSockets
 
 import posts from './routes/posts.mjs';
+import docs from './docs.mjs'; // Ensure that the path to docs.mjs is correct
 
-import { Server } from 'http';
-
-import docs from "./docs.mjs";
- main
-
-
+// Initialize the Express app
 const app = express();
+const port = process.env.PORT || 1337;
 
+// Disable the "x-powered-by" header for security reasons
 app.disable('x-powered-by');
 
+// Set the view engine to EJS
 app.set("view engine", "ejs");
 
+// Set up static file serving
 app.use(express.static(path.join(process.cwd(), "public")));
+
+// Enable method override for PUT and DELETE requests
 app.use(methodOverride('_method'));
+
+// Enable CORS
 app.use(cors());
 
-// don't show the log when it is test
+// Use morgan for logging, but only in non-test environments
 if (process.env.NODE_ENV !== 'test') {
-    // use morgan to log at command line
-    app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
+    app.use(morgan('combined')); // 'combined' format mimics Apache logs
 }
 
+// Parse request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Use routes from posts
 app.use("/", posts);
 
-// app.post("/", async (req, res) => {
-//     const result = await documents.addOne(req.body);
+// Uncommented the following if you're ready to use docs-related routes
+app.get('/:id', async (req, res) => {
+    try {
+        const document = await docs.getOne(req.params.id);
 
-//     return res.redirect(`/${result.lastID}`);
-// });
+        if (document) {
+            return res.render("doc", { doc: document });
+        } else {
+            return res.status(404).send('Document not found');
+        }
+    } catch (error) {
+        console.error("Error fetching document:", error);
+        return res.status(500).send('Internal server error');
+    }
+});
 
-// app.get('/:id', async (req, res) => {
-//     const document = await documents.getOne(req.params.id);
+app.get('/', async (req, res) => {
+    try {
+        const allDocs = await docs.getAll();
+        return res.render("index", { docs: allDocs });
+    } catch (error) {
+        console.error("Error fetching documents:", error);
+        return res.status(500).send('Internal server error');
+    }
+});
 
-//     if (document) {
-//         return res.render("doc", { doc: document });
-//     } else {
-//         return res.status(404).send('Document not found');
-//     }
-// });
-
-// app.get('/', async (req, res) => {
-//     return res.render("index", { docs: await documents.getAll() });
-// });
-
-
+// Start the server
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`App listening on port ${port}`);
 });
 
 export default app;
-
-// app.post("/create", async (req, res) => {
-//     const result = await documents.addOne(req.body);
-
-//     return res.redirect(`/${result.lastID}`);
-// });
-
-// app.put('/:id', async (req, res) => {
-//     const { id } = req.params;
-
-//     const updatedContent = req.body;
-
-//     //uppdatera docs i databas
-//     await documents.updateOne(id, updatedContent);
-
-//     return res.redirect(`/${id}`);
-// });
