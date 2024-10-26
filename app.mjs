@@ -10,12 +10,38 @@ import cors from 'cors';
 import methodOverride from 'method-override';
 import { Server } from 'http'; // If needed in the future, e.g., for WebSockets
 
-import posts from './routes/posts.mjs';
+//import posts from './routes/posts.mjs';
 import docs from './docs.mjs'; // Ensure that the path to docs.mjs is correct
+
+import { graphqlHTTP } from 'express-graphql';
+import { GraphQLSchema } from 'graphql';
+import schema from './graphql/root.js';
+
+
+
 
 // Initialize the Express app
 const app = express();
+const visual = true;
+
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    graphiql: visual // Visual is set to true during development
+  }));
+
 const port = process.env.PORT || 1337;
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 // Disable the "x-powered-by" header for security reasons
 app.disable('x-powered-by');
@@ -71,6 +97,7 @@ app.get('/', async (req, res) => {
         return res.status(500).send('Internal server error');
     }
 });
+*/
 
 // Start the server
 app.listen(port, () => {

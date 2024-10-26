@@ -173,3 +173,10 @@ Vi har installerat Azure i vscode enligt instruktionerna och skapat en webapp p�
 URL för backend-applikationen är https://jsramverk-emlx23-d5hyekcpbdcxdjch.swedencentral-01.azurewebsites.net/
 
 # Implementera graphQL
+
+## 1. Vad vi gjorde
+
+1. Installerade graphQL
+2. skapade en root.js för graphQL objekten
+3. kommenterade bort kod för gamla express routes
+4. uppdaterade app.mjs för att använda graphQL routes och importera schema från root.js
