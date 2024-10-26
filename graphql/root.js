@@ -1,5 +1,6 @@
 import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLNonNull, GraphQLSchema } from 'graphql';
 import docs from '../docs.mjs';
+import { ObjectId } from 'mongodb';
 
 // Define the Document type with a proper name
 const DocumentType = new GraphQLObjectType({

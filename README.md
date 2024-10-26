@@ -177,6 +177,12 @@ URL för backend-applikationen är https://jsramverk-emlx23-d5hyekcpbdcxdjch.swe
 ## 1. Vad vi gjorde
 
 1. Installerade graphQL
-2. skapade en root.js för graphQL objekten
+2. skapade en root.js för graphQL objekten med felhantering
 3. kommenterade bort kod för gamla express routes
 4. uppdaterade app.mjs för att använda graphQL routes och importera schema från root.js
+
+
+Varför graphQL?
+
+Färre requests till databasen vilket leder till mindre trafik och en lättare applikation.
+"Mutations" ersätter PUT, DELETE och UPDATE i ett REST-api.
