@@ -162,47 +162,27 @@ mongod --dbpath ~/jsramverk/db/mongodb-data
 ```
 Detta kommando säkerställer att MongoDB använder den angivna katalogen för datalagring.
 
- implementingtests
-
-# Implementation av tester för att säkerställa funktionalitet
-
-* Installera nödvändiga paket genom att köra följande kommando i jsramverk mappen(Mocha: testramverk, Chai: assertionsbibliotek, Chai-HTTP: testa HTTP-anrop, Istanbul (nyc): kodtäckning):
-```bash
-npm install mocha chai chai-http nyc --save-dev
-```
-
-* Skapa en mapp "test", med test-filer.
-
-* Testa API-endpoint
-
-* Konfigurera npm-skript för tester, öppna "package.json" och lägg till följande: 
-```bash
-"scripts": {
-    "test": "nyc mocha"
-}
-```
-
-* Implementera mongodb-memory-server:
-```bash
-npm install --save-dev mongodb-memory-server
-```
-Konfigurera mongodb-memory-server i testerna.
-
-* Kör testerna genom kommandot:
-```bash
-npm test
-
-Kommando för en mer detaljerad rapport om kodtäckning:
-nyc report
-```
-
 Adderade paket dotenv med kommandot
 ```bash
 npm install --save dotenv
 ```
-Lagt till .env fil med username och password.
+Vi har Lagt till .env fil med username och password.
 
 Vi har installerat Azure i vscode enligt instruktionerna och skapat en webapp på Microsoft Azure för deployment.
 
 URL för backend-applikationen är https://jsramverk-emlx23-d5hyekcpbdcxdjch.swedencentral-01.azurewebsites.net/
-main
+
+# Implementera graphQL
+
+## 1. Vad vi gjorde
+
+1. Installerade graphQL
+2. skapade en root.js för graphQL objekten med felhantering
+3. kommenterade bort kod för gamla express routes
+4. uppdaterade app.mjs för att använda graphQL routes och importera schema från root.js
+
+
+Varför graphQL?
+
+Färre requests till databasen vilket leder till mindre trafik och en lättare applikation.
+"Mutations" ersätter PUT, DELETE och UPDATE i ett REST-api.

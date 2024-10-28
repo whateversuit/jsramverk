@@ -1,4 +1,4 @@
-import express from 'express';
+/*import express from 'express';
 import docs from "../docs.mjs";
 
 const router = express.Router();
@@ -80,3 +80,4 @@ router.delete('/:_id', async (req, res) => {
 });
 
 export default router;
+*/
