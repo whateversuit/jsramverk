@@ -48,6 +48,16 @@ io.on('connection', function(socket) {
         }, 2000);
     });
 
+    socket.on("addComment", async ({ documentId, lineNumber, comment }) => {
+        console.log("New temporary comment received:", { documentId, lineNumber, comment });
+
+        // spara kommentaren i databasen??
+        // await docs.addComment(documentId, lineNumber, comment);
+
+        // skicka kommentaren till alla anslutna klienter
+        io.emit("newComment", { documentId, lineNumber, comment });
+    });
+
     socket.on("disconnect", function() {
         console.log('A user disconnected:', socket.id);
     });
