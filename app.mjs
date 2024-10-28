@@ -8,7 +8,8 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import { Server } from 'http'; // If needed in the future, e.g., for WebSockets
+import { createServer } from 'http';
+import { Server as SocketIOServer } from 'socket.io'
 
 //import posts from './routes/posts.mjs';
 import docs from './docs.mjs'; // Ensure that the path to docs.mjs is correct
@@ -32,6 +33,47 @@ app.use('/graphql', graphqlHTTP({
 const port = process.env.PORT || 1337;
 
 
+// HTTP-server based on express-app
+const httpServer = createServer(app);
+
+const io = new SocketIOServer(httpServer, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ['GET', 'POST']
+    }
+});
+
+let timeout;
+
+io.on('connection', function(socket) {
+    console.log('A user connected:', socket.id);
+
+
+    socket.on("content", function(data) {
+        console.log('Message received:', data);
+
+        socket.join(data);
+
+        io.emit("content", data);
+
+        clearTimeout(timeout);
+
+        timeout = setTimeout(function() {
+            console.log("spara data");
+        }, 2000);
+    });
+
+    socket.on("disconnect", function() {
+        console.log('A user disconnected:', socket.id);
+    });
+
+        // spara till databas och göra annat med data
+});
+
+
+app.get("/", (req, res) => res.send("io server"));
+
+
 
 
 
@@ -42,6 +84,7 @@ const port = process.env.PORT || 1337;
 
 
 /*
+
 
 // Disable the "x-powered-by" header for security reasons
 app.disable('x-powered-by');
@@ -100,8 +143,12 @@ app.get('/', async (req, res) => {
 */
 
 // Start the server
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+// app.listen(port, () => {
+//     console.log(`App listening on port ${port}`);
+// });
+
+httpServer.listen(port, () => {
+    console.log(`App and Socket.io listening on port ${port}`);
 });
 
 export default app;
