@@ -18,12 +18,15 @@ import { graphqlHTTP } from 'express-graphql';
 import { GraphQLSchema } from 'graphql';
 import schema from './graphql/root.js';
 
-
-
-
 // Initialize the Express app
 const app = express();
 const visual = true;
+
+app.use(cors());
+
+app.options('*', cors());
+
+app.use(methodOverride('_method'));
 
 app.use('/graphql', graphqlHTTP({
     schema: schema,
@@ -31,6 +34,9 @@ app.use('/graphql', graphqlHTTP({
   }));
 
 const port = process.env.PORT || 1337;
+
+
+
 
 
 // HTTP-server based on express-app
