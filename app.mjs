@@ -33,7 +33,7 @@ const httpServer = createServer(app);
 
 const io = new SocketIOServer(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://www.student.bth.se/~emlx23/editor/#/home",
         methods: ['GET', 'POST']
     }
 });
