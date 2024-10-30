@@ -15,9 +15,13 @@ import schema from './graphql/root.js';
 const app = express();
 const visual = true;
 
-app.use(cors());
+app.use(cors({
+    origin: "https://www.student.bth.se", 
+    methods: ["GET", "POST"],
+    credentials: true
+}));
 
-app.options('*', cors());
+//app.options('*', cors());
 
 app.use(methodOverride('_method'));
 
@@ -33,9 +37,12 @@ const httpServer = createServer(app);
 
 const io = new SocketIOServer(httpServer, {
     cors: {
-        origin: "https://www.student.bth.se/~emlx23/editor/#/home",
-        methods: ['GET', 'POST']
-    }
+        origin: "https://www.student.bth.se",
+        methods: ["GET", "POST"],
+        credentials: true
+
+    },
+    allowEIO3: true // Tillåt äldre Engine.IO-version klienter om det behövs
 });
 
 let timeout;
