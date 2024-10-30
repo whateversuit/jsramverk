@@ -24,7 +24,7 @@ app.use(methodOverride('_method'));
 app.use('/graphql', graphqlHTTP({
     schema: schema,
     graphiql: visual // Visual is set to true during development
-  }));
+}));
 
 const port = process.env.PORT || 1337;
 
