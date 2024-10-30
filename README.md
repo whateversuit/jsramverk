@@ -186,3 +186,5 @@ Varför graphQL?
 
 Färre requests till databasen vilket leder till mindre trafik och en lättare applikation.
 "Mutations" ersätter PUT, DELETE och UPDATE i ett REST-api.
+
+Hej
